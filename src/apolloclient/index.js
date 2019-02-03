@@ -6,7 +6,7 @@ import { withClientState } from 'apollo-link-state';
 
 let uri = 'http://localhost:8000/graphql'
 if(process.env.NODE_ENV === 'production'){
-    uri = 'https://biddingapiserver.herokuapp.com/graphql'
+    uri = 'https://sattamatkabazaar.com/api/graphql'
 }
 
 const httpLink = new HttpLink({ uri })
