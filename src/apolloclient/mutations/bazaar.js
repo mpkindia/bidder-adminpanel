@@ -22,6 +22,13 @@ mutation ToggleCloseBazaar($id:ID) {
     }
 }
 `
+// const serialBazaar = gql`
+//     mutation SerialBazaar($id:ID, $serial:Float){
+//         serialBazaar(id:$id, serial:$serial){
+//             id, serial
+//         }
+//     }
+// `
 
 const addBazaar = gql`
     mutation AddBazaar($name:String!, $open_time:String!, $close_time:String!){
@@ -42,5 +49,6 @@ mutation RemoveBazaar($id:ID){
 export { 
     bazaarResult, addBazaar, toggleOpenBazaar, toggleCloseBazaar,
     removeBazaar, 
+    // serialBazaar 
     // editBazaar
 }

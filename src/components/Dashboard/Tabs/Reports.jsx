@@ -79,10 +79,14 @@ class CalendarDropButton extends React.Component {
 }
 
 const columns = [
+  // {
+  //   property: "serialno",
+  //   header: "Sr. No."
+  // },
   {
     property: "bazaar_name",
     header: <Text>Bazaar Name</Text>,
-    primary: true,
+    // primary: true,
   },
   {
     property: "user_name",
@@ -98,7 +102,7 @@ const columns = [
   },
   {
     property: "bid_number",
-    header: <Text>Bid Value</Text>
+    header: <Text>Bid Number</Text>
   },
   {
     property: "bid_value",
@@ -107,15 +111,17 @@ const columns = [
   {
     property: "created_at",
     header: <Text>Time</Text>,
-    render: ({created_at}) => created_at.split('GMT')[0]
+    render: ({created_at}) => created_at.split('GMT')[0],
+    primary: true
   }
 ];
 
 const controlledColumns = columns.map(col => Object.assign({}, col));
+const arr = [];
 
 class ControlledDataTable extends React.Component {
     getBids(date, data) {
-    let arr = [];
+    arr.splice(0)
     if(!date) return data
     if(!data ) return []
     let inputSplit = date.split('T')[0].split('-')
@@ -125,9 +131,11 @@ class ControlledDataTable extends React.Component {
       let splited = item['created_at'].split(' ')
       splited[0] = splited[3]
       splited.splice(3)
-      if(compare(inputSplit, splited))
-      arr.push(item)
+      if(compare(inputSplit, splited)){
+        arr.push(item)
+      }
     })
+    console.log(arr)
     return arr
   }
 

@@ -3,7 +3,9 @@ import { Heading, Box, Text, Table, TableHeader, TableRow, TableBody, TableCell,
 import { getAllBazaars } from '../../../apolloclient/queries/bazaar'
 import { graphql } from 'react-apollo'
 import { addBazaar, toggleOpenBazaar, toggleCloseBazaar, removeBazaar } from '../../../apolloclient/mutations/bazaar'
-import { Trash as Remove } from 'grommet-icons'
+import { Trash as Remove, Update } from 'grommet-icons'
+
+
 
 const OCheckBox = ({ open_active, bazaar_id, mutate }) => {
     console.log(open_active, bazaar_id)
@@ -24,6 +26,7 @@ const OCheckBox = ({ open_active, bazaar_id, mutate }) => {
     )
   }
  const ModifiedCloseCheckBox = graphql(toggleCloseBazaar)(CCheckBox)
+
 
 class AddLayer extends React.Component {
     constructor(props){
@@ -208,6 +211,41 @@ class DeleteBazaar extends React.Component{
   }
   const DeleteRowBox = graphql(removeBazaar)(DeleteBazaar)
 
+
+  class InputBox extends React.Component {
+    constructor(props){
+      super(props)
+      this.state = {
+         serial: this.props.serial
+      }
+      this.handleChange = this.handleChange.bind(this)
+      this.handleSubmit = this.handleSubmit.bind(this)
+    } 
+    handleChange(e){
+      let value = e.target.value
+      this.setState({ serial: value })
+    }
+    async handleSubmit(){
+      let id = this.props.bazaar_id
+      let serial = this.state.serial
+      await this.props.mutate({
+        variables: { id, serial }
+      })
+    }
+    render(){ 
+      return (
+        <React.Fragment>
+          <Box direction="row" gap="small" width="xsmall" align="center">
+          <TextInput value={this.state.serial} onChange={this.handleChange}/> 
+                <Button onClick={this.handleSubmit}>
+                    <Update />
+                 </Button>
+          </Box>
+        </React.Fragment>
+      )
+    }
+  }
+// const MutatedInputBox = graphql(serialBazaar)(InputBox)
 class Bazaar extends React.Component {
     constructor(props){
         super()
@@ -258,6 +296,9 @@ class Bazaar extends React.Component {
         <Table >
         <TableHeader>
             <TableRow>
+                {/* <TableCell>
+                    Sr. No.
+                </TableCell> */}
                 <TableCell>
                     Name
                 </TableCell>
@@ -281,6 +322,9 @@ class Bazaar extends React.Component {
         <TableBody>
         {this.props.data.getAllBazaars ? this.props.data.getAllBazaars.map((item, index)=>(
             <TableRow key={index}>
+            {/* <TableCell>
+                <MutatedInputBox serial={item.serial} bazaar_id={item.id} />
+            </TableCell> */}
             <TableCell>
                 {item.name}
             </TableCell>
